@@ -1,0 +1,11 @@
+---
+- name: Start an existing EC2 instance
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Start EC2 instance
+      amazon.aws.ec2_instance:
+        instance_ids:
+          - "{{ instancia }}"  # Reemplaza con el ID de tu instancia
+        state: "running"  # Asegúrate de que la instancia esté encendida
+        region: "us-east-1"  # Cambia por la región donde está tu instancia
