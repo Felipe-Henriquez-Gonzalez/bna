@@ -1,0 +1,23 @@
+---
+- name: Listen for events on a webhook
+  hosts: all
+  sources:
+    - dynatrace.event_driven_ansible.dt_esa_api:
+        dt_api_host: "https://eiy38764.apps.dynatrace.com"
+        dt_api_token: "dt0s16.ROF3QBON.I4N4XKHA37LCT54WQMYNCFNYXMBC2VXIBC7JIOCGB34AZPLPQUQYFTTTJ3UOCLYQ"
+        delay: 60 # Default is 60 seconds, i.e. the plugin polls problems every 60 seconds
+        proxy: "http://my-proxy:3128" # Proxy through which to access host. (default is none)
+
+  rules:
+    - name: Problem payload Dynatrace for CPU issue
+      condition: event.title is match("CPU saturation")
+      action:
+        run_job_template:
+          name: "Remediate CPU saturation issue"
+          organization: "Default"
+    - name: Problem payload Dynatrace for App Failure rate increase issue
+      condition: event.title is match("Failure rate increase")
+      action:
+        run_job_template:
+          name: "Remediate Application issue"
+          organization: "Default"
